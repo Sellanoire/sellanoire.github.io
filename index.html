@@ -5,18 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Redirecting...</title>
-    <link rel="apple-touch-icon" href="https://imgur.com/a/SZSf9sh">
+    <title>Loading App...</title>
+    <link rel="apple-touch-icon" href="/api/placeholder/180/180">
     <style>
         body {
             margin: 0;
             padding: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             background: #f5f5f5;
             font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto;
+            text-align: center;
         }
         .loader {
             width: 48px;
@@ -25,6 +27,21 @@
             border-bottom-color: transparent;
             border-radius: 50%;
             animation: rotation 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        .message {
+            color: #666;
+            margin: 20px;
+            font-size: 14px;
+        }
+        .add-to-home {
+            display: none;
+            background: #007AFF;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 20px;
         }
         @keyframes rotation {
             0% { transform: rotate(0deg) }
@@ -34,10 +51,27 @@
 </head>
 <body>
     <div class="loader"></div>
+    <div class="message">Loading your app...</div>
+    <a href="#" class="add-to-home">Add to Home Screen</a>
     <script>
-        window.onload = function() {
-            // Replace this URL with your desired destination
-            window.location.href = "https://app.jointherealworld.com/";
+        // Replace this URL with your desired destination
+        const DESTINATION_URL = "https://example.com";
+        
+        // Check if running as PWA
+        const isInPWA = window.matchMedia('(display-mode: standalone)').matches || 
+                        window.navigator.standalone;
+        
+        if (isInPWA) {
+            // If running as PWA, wait a moment then redirect
+            setTimeout(() => {
+                window.location.href = DESTINATION_URL;
+            }, 1500);
+        } else {
+            // If not in PWA, show installation instructions
+            document.querySelector('.message').innerHTML = 
+                'To install this app:<br>1. Tap the share button below<br>2. Select "Add to Home Screen"';
+            document.querySelector('.loader').style.display = 'none';
+            document.querySelector('.add-to-home').style.display = 'inline-block';
         }
     </script>
 </body>
